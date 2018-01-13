@@ -32,19 +32,33 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
+
         table = self.browser.find_element_by_id('id_list_table')
         rows  = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: Buy peakcock feathers' for row in rows), "New to-do item did not appear in table"
-        )
+        #self.assertTrue(
+        #    any(row.text == '1: Buy peakcock feathers' for row in rows), "New to-do item did not appear in table"
+        #    f"new to-do item did not appear in table. Contents were:\n{table.text}"
+        #)
+        # the above lines can be replaced with a single line, nice!
+        self.assertIn('1: Buy peakcock feathers', [row.text for row in rows]) 
+
+
         #there is still a text box inviting her to enter another item
-        self.fail('Finish the test')
-
         #enters "use feathers to make a fly"
-
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Use peacock feathers to make a fly')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
         #the page updates again with both items on her list
-
+        table = self.browser.find_element_by_id('id_list_table')
+        rows  = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Buy peakcock feathers', [row.text for row in rows])
+        self.assertIn(
+            '2: Use peacock feathers to make a fly',
+            [row.text for row in rows]
+        )
         #the site has generated a unique URL. 
+        self.fail('Finish the test')
 
         #visit the unique URL to validate the to-do list is still there
 
