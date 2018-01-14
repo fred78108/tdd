@@ -2,9 +2,10 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import unittest
+from django.test import LiveServerTestCase
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
     
@@ -17,7 +18,7 @@ class NewVisitorTest(unittest.TestCase):
         self.assertIn(row_text, [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         #check out the page title
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
@@ -50,7 +51,7 @@ class NewVisitorTest(unittest.TestCase):
         #there is still a text box inviting her to enter another item
         #enters "use feathers to make a fly"
         inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('Use peacock feathers to make a fly')
+        inputbox.send_keys('Use peacock feathers')
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
         #the page updates again with both items on her list
@@ -61,6 +62,3 @@ class NewVisitorTest(unittest.TestCase):
         self.fail('Finish the test')
 
         #visit the unique URL to validate the to-do list is still there
-
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
