@@ -75,19 +75,19 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.quit()
         self.browser = webdriver.Firefox()
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_element_by_tag_name('body').text
-        self.AssertNotIn('Buy peacock feathers', page_text)
+        page_text = self.browser.find_element_by_tag_name('body').text        
+        self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('Use peacock feathers', page_text)
 
         #create a new item
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)        
-        self.wait_for_row_in_list_table('2: Buy milk')
+        self.wait_for_row_in_list_table('1: Buy milk')
 
         #validate no mention from Ediths list
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.AssertNotIn('Buy peacock feathers', page_text)
+        self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('Use peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)        
         
