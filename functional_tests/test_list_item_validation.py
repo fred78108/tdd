@@ -73,8 +73,8 @@ class ItemValidationTest(StaticLiveServerTestCase):
         #and corrects by filling in text
         self.browser.find_element_by_id('id_new_item').send_keys('Make tea')
         self.browser.find_element_by_id('id_new_item').send_keys(Keys.ENTER)
-        sef.wait_for_row_in_list_table('1: Buy milk')
-        sef.wait_for_row_in_list_table('2: Make tea')
+        self.wait_for_row_in_list_table('1: Buy milk')
+        self.wait_for_row_in_list_table('2: Make tea')
 
 
         
